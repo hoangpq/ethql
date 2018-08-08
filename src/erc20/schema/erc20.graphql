@@ -1,6 +1,3 @@
-# import Account, DecodedTransaction, Entity, DecodedLog from "core.graphql"
-# import * from "token.graphql"
-
 interface ERC20Transaction {
   tokenContract: TokenContract
 }

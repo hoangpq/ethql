@@ -1,6 +1,7 @@
 import { GraphQLSchema } from 'graphql';
 import { importSchema } from 'graphql-import';
 import { makeExecutableSchema } from 'graphql-tools';
+import { EthqlPlugin } from '../plugin';
 import resolvers from './resolvers';
 
 export function initSchema(): GraphQLSchema {
@@ -13,3 +14,9 @@ export function initSchema(): GraphQLSchema {
     resolverValidationOptions: { requireResolversForResolveType: false },
   });
 }
+
+export const corePlugin: EthqlPlugin = {
+  name: 'core',
+  resolvers,
+  schema: () => [],
+};
