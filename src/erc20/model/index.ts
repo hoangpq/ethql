@@ -1,4 +1,4 @@
-import { Contract } from '../../../node_modules/web3/types';
+import { Contract } from 'web3/types';
 import { EthqlContext } from '../../context';
 import { EthqlAccount } from '../../core/model';
 
@@ -42,7 +42,7 @@ export class Erc20TokenContract {
   private _contract: Contract;
 
   constructor(public readonly account: EthqlAccount, readonly context: EthqlContext) {
-    this._contract = new context.web3.eth.Contract(Erc20TokenContract.ABI, account.address);
+    this._contract = new context.services.web3.eth.Contract(Erc20TokenContract.ABI, account.address);
   }
 
   public async symbol() {

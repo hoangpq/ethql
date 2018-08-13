@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@types/bluebird": "^3.5.20",
+    "@types/graphlib": "^2.1.4",
     "abi-decoder": "^1.1.0",
     "apollo-server": "^2.0.0",
     "axios": "^0.18.0",
@@ -56,6 +57,7 @@
     "cors": "^2.8.4",
     "dataloader": "^1.4.0",
     "express": "^4.16.3",
+    "graphlib": "^2.1.5",
     "graphql": "^0.13.2",
     "graphql-import": "^0.6.0",
     "graphql-tools": "^3.0.2",

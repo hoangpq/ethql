@@ -1,8 +1,10 @@
 import { ApolloServer, PlaygroundConfig } from 'apollo-server';
-import { GraphQLSchema } from 'graphql';
 import { AddressInfo } from 'net';
-import { EthqlContextFactory } from './context';
+import { bootstrap } from './bootstrap';
+import { Options } from './config';
+import { EthqlContext } from './context';
 import { WELCOME_QUERY } from './editor';
+import { EthqlPluginFactory } from './plugin';
 
 const playground: PlaygroundConfig = {
   settings: { 'editor.theme': 'light' },
@@ -20,8 +22,8 @@ type ServerStatus = 'stopped' | 'starting' | 'started' | 'stopping';
  * Options for EthQL server.
  */
 export type EthqlServerOpts = {
-  schema: GraphQLSchema;
-  ctxFactory: EthqlContextFactory;
+  config?: Options;
+  plugins?: EthqlPluginFactory[];
 } & {
   [prop: string]: any;
 };
@@ -45,13 +47,7 @@ export class EthqlServer {
 
     this._status = 'starting';
 
-    const server = new ApolloServer({
-      schema: this.opts.schema,
-      rootValue: {},
-      context: () => this.opts.ctxFactory.create(),
-      playground,
-    });
-
+    const server = this.createServer();
     const { url, address, family, port } = await server.listen(this.opts.ctxFactory.config.port);
     this.server = server;
     this._address = { address, family, port: Number(port) };
@@ -70,6 +66,16 @@ export class EthqlServer {
     await this.server.stop();
     this._address = this._status = this.server = null;
     this._status = 'stopped';
+  }
+
+  protected createServer() {
+    const result = bootstrap(this.opts);
+
+    return new ApolloServer({
+      schema: result.schema,
+      context: () => new EthqlContext(this.opts.config, result.serviceFactories),
+      playground,
+    });
   }
 
   public get address() {

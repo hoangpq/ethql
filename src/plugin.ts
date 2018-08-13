@@ -1,13 +1,22 @@
 import { IResolvers } from 'graphql-tools';
-import { DecoderDefinition } from './dec/types';
-import { EthqlPrelude } from './schema';
-
-type CalledWithPrelude<T> = (prelude: EthqlPrelude) => T;
+import { EthqlBootstrapResult } from './bootstrap';
+import { EthqlServerOpts } from './server';
+import { EthqlServiceDefinitions, EthqlServices } from './services';
 
 export interface EthqlPlugin {
   name: string;
-  decoders?: CalledWithPrelude<Array<DecoderDefinition<any, any>>>;
-  schema?: CalledWithPrelude<string[]>;
-  resolvers?: CalledWithPrelude<IResolvers<any, any>>;
-  services?: CalledWithPrelude<any>;
+  priority: number;
+  schema?: string[];
+  resolvers?: IResolvers<any, any>;
+  serviceDefinitions?: Partial<EthqlServiceDefinitions>;
+  dependsOn?: {
+    services?: Array<keyof EthqlServices>;
+  };
+  order?: {
+    before?: string[];
+    after?: string[];
+  };
+  init?: (result: EthqlBootstrapResult) => void;
 }
+
+export type EthqlPluginFactory = (opts: EthqlServerOpts) => EthqlPlugin;

@@ -42,10 +42,10 @@ function transactionFilter({ filter }: TransactionFilter): (tx: EthqlTransaction
 async function parent(
   obj: EthqlBlock,
   args,
-  { ethService }: EthqlContext,
+  { services }: EthqlContext,
   info: GraphQLResolveInfo,
 ): Promise<EthqlBlock> {
-  return ethService.fetchBlock(obj.parentHash, info);
+  return services.ethService.fetchBlock(obj.parentHash, info);
 }
 
 /**
@@ -61,9 +61,9 @@ function transactions(obj: EthqlBlock, args: TransactionFilter) {
 async function transactionAt(
   obj: EthqlBlock,
   { index } /* args */,
-  { ethService }: EthqlContext,
+  { services }: EthqlContext,
 ): Promise<EthqlTransaction> {
-  return index < 0 ? null : ethService.fetchTxFromBlock(obj.hash, index);
+  return index < 0 ? null : services.ethService.fetchTxFromBlock(obj.hash, index);
 }
 
 /**

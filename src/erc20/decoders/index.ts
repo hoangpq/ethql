@@ -1,7 +1,6 @@
 import { EthqlContext } from '../../context';
 import { EthqlAccount, EthqlTransaction } from '../../core/model';
-import { DecoderDefinition } from '../../dec/types';
-import { createAbiDecoder, extractParamValue } from '../../dec/utils';
+import { createAbiDecoder, DecoderDefinition, extractParamValue } from '../../core/services/decoder';
 import {
   ERC20ApprovalEvent,
   Erc20Approve,

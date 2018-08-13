@@ -1,3 +1,4 @@
+export default `
 interface ERC20Transaction {
   tokenContract: TokenContract
 }
@@ -50,3 +51,4 @@ type ERC20ApprovalEvent implements DecodedLog {
   spender: TokenHolder
   value: String
 }
+`;
